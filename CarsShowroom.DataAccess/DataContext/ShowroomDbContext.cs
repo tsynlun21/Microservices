@@ -17,6 +17,13 @@ public class ShowroomDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<SoldExtraItemsEntity>()
+            .HasOne(s => s.VehicleModel)
+            .WithMany()
+            .HasForeignKey(s => s.VehicleModelKey)
+            .HasPrincipalKey(m => m.Model);
+            
+        
         modelBuilder.Entity<ShowroomEntity>().HasData(new ShowroomEntity()
         {
             Id            = 1,
@@ -62,7 +69,8 @@ public class ShowroomDbContext : DbContext
                 Name                  = "Harman Kardon audio system",
                 Type                  = ExtraItemType.Electronic,
                 VehicleModelEntityKey = 1,
-                Count                 = 10
+                Count                 = 10,
+                Price = 185_000,
             },
             new ExtraItemEntity()
             {
@@ -70,15 +78,17 @@ public class ShowroomDbContext : DbContext
                 Name                  = "Power Wilkins Audio system",
                 Type                  = ExtraItemType.Electronic,
                 VehicleModelEntityKey = 2,
-                Count                 = 10
+                Count                 = 10,
+                Price = 160_000
             },
             new ExtraItemEntity()
             {
                 Id                    = 5,
-                Name                  = "19R Alpine wheels",
+                Name                  = "19R Alpine wheels set",
                 Type                  = ExtraItemType.Exterior,
                 VehicleModelEntityKey = 2,
-                Count                 = 3
+                Count                 = 3,
+                Price = 750_000
             },
             new ExtraItemEntity()
             {
@@ -86,7 +96,8 @@ public class ShowroomDbContext : DbContext
                 Name                  = "AMG kit",
                 Type                  = ExtraItemType.Exterior,
                 VehicleModelEntityKey = 3,
-                Count                 = 3
+                Count                 = 3,
+                Price                 = 300_000
             },
             new ExtraItemEntity()
             {
@@ -94,7 +105,8 @@ public class ShowroomDbContext : DbContext
                 Name                  = "Ceramic breaks system",
                 Type                  = ExtraItemType.Exterior,
                 VehicleModelEntityKey = 4,
-                Count                 = 3
+                Count                 = 3,
+                Price                 = 915_000
             },
             new ExtraItemEntity()
             {
@@ -102,7 +114,8 @@ public class ShowroomDbContext : DbContext
                 Name                  = "Lip spoiler",
                 Type                  = ExtraItemType.Exterior,
                 VehicleModelEntityKey = 1,
-                Count                 = 10
+                Count                 = 10,
+                Price                 = 45_000
             },
             new ExtraItemEntity()
             {
@@ -110,7 +123,8 @@ public class ShowroomDbContext : DbContext
                 Name                  = "LED lights",
                 Type                  = ExtraItemType.Electronic,
                 VehicleModelEntityKey = 1,
-                Count                 = 10
+                Count                 = 10,
+                Price                 = 310_000
             },
         });
 
@@ -118,56 +132,56 @@ public class ShowroomDbContext : DbContext
         {
             Id                = 1,
             ShowroomEntityKey = 1,
-            ReleaseDate       = DateTime.SpecifyKind(new DateTime(2023, 3, 4, 0, 0, 0), DateTimeKind.Utc),
+            ReleaseDate       = new DateOnly(year: 2015, month: 1, day: 1),
             Brand             = "BMW",
             VehicleModelId    = 1,
             Color             = LPCColors.CianGray,
-            Price             = 3_000_000,
-            Uid               = "23D34EC8-F83F-4BED-95D6-05BDE4F76222"
+            Price             = 2_350_000,
+            Vin               = "23D34EC8-F83F-4BED-95D6-05BDE4F76222"
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
             Id                = 2,
             ShowroomEntityKey = 1,
-            ReleaseDate       = DateTime.SpecifyKind(new DateTime(2023, 3, 4, 0, 0, 0), DateTimeKind.Utc),
+            ReleaseDate       = new DateOnly(year: 2017, month: 6, day: 13),
             Brand             = "BMW",
             VehicleModelId    = 1,
             Color             = LPCColors.Blue,
             Price             = 3_200_000,
-            Uid               = "6786D736-1C1D-4375-8A35-6594E5133823"
+            Vin               = "6786D736-1C1D-4375-8A35-6594E5133823"
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
             Id                = 3,
             ShowroomEntityKey = 1,
-            ReleaseDate       = DateTime.SpecifyKind(new DateTime(2023, 3, 4, 0, 0, 0), DateTimeKind.Utc),
+            ReleaseDate       = new DateOnly(year: 2020, month: 11, day: 1),
             Brand             = "BMW",
             VehicleModelId    = 2,
             Color             = LPCColors.Blue,
             Price             = 10_200_000,
-            Uid               = "8E10D3F9-FE4A-4023-9E44-505249AE95C5"
+            Vin               = "8E10D3F9-FE4A-4023-9E44-505249AE95C5"
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
             Id                = 4,
             ShowroomEntityKey = 2,
-            ReleaseDate       = DateTime.SpecifyKind(new DateTime(2023, 3, 4, 0, 0, 0), DateTimeKind.Utc),
+            ReleaseDate       = new DateOnly(year: 2016, month: 5, day: 10),
             Brand             = "Mercedes-Benz",
             VehicleModelId    = 3,
             Color             = LPCColors.Red,
             Price             = 3_200_000,
-            Uid               = "80070953-A133-41C2-AD49-BD51C30FC7AE"
+            Vin               = "80070953-A133-41C2-AD49-BD51C30FC7AE"
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
             Id                = 5,
             ShowroomEntityKey = 2,
-            ReleaseDate       = DateTime.SpecifyKind(new DateTime(2023, 3, 4, 0, 0, 0), DateTimeKind.Utc),
+            ReleaseDate       = new DateOnly(year: 2018, month: 3, day: 12),
             Brand             = "Mercedes-Benz",
             VehicleModelId    = 4,
             Color             = LPCColors.Silver,
             Price             = 9_450_000,
-            Uid               = "BCC89D79-35D9-4AC2-8597-A837DED42699"
+            Vin               = "BCC89D79-35D9-4AC2-8597-A837DED42699"
         });
     }
 

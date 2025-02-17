@@ -37,8 +37,8 @@ namespace CarsShowroom.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("ReceiptEntityId")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<long?>("ShowroomEntityId")
                         .HasColumnType("bigint");
@@ -51,11 +51,15 @@ namespace CarsShowroom.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiptEntityId");
-
                     b.HasIndex("ShowroomEntityId");
 
                     b.HasIndex("VehicleModelEntityKey");
+
+                    b.HasIndex("Name", "VehicleModelEntityKey")
+                        .IsUnique();
+
+                    b.HasIndex("Name", "VehicleModelEntityKey", "Type")
+                        .IsUnique();
 
                     b.ToTable("ExtraItems");
 
@@ -65,6 +69,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 1L,
                             Count = 10,
                             Name = "Harman Kardon audio system",
+                            Price = 185000m,
                             Type = 1,
                             VehicleModelEntityKey = 1L
                         },
@@ -73,6 +78,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 4L,
                             Count = 10,
                             Name = "Power Wilkins Audio system",
+                            Price = 160000m,
                             Type = 1,
                             VehicleModelEntityKey = 2L
                         },
@@ -80,7 +86,8 @@ namespace CarsShowroom.DataAccess.Migrations
                         {
                             Id = 5L,
                             Count = 3,
-                            Name = "19R Alpine wheels",
+                            Name = "19R Alpine wheels set",
+                            Price = 750000m,
                             Type = 2,
                             VehicleModelEntityKey = 2L
                         },
@@ -89,6 +96,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 6L,
                             Count = 3,
                             Name = "AMG kit",
+                            Price = 300000m,
                             Type = 2,
                             VehicleModelEntityKey = 3L
                         },
@@ -97,6 +105,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 7L,
                             Count = 3,
                             Name = "Ceramic breaks system",
+                            Price = 915000m,
                             Type = 2,
                             VehicleModelEntityKey = 4L
                         },
@@ -105,6 +114,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 2L,
                             Count = 10,
                             Name = "Lip spoiler",
+                            Price = 45000m,
                             Type = 2,
                             VehicleModelEntityKey = 1L
                         },
@@ -113,6 +123,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 3L,
                             Count = 10,
                             Name = "LED lights",
+                            Price = 310000m,
                             Type = 1,
                             VehicleModelEntityKey = 1L
                         });
@@ -126,13 +137,10 @@ namespace CarsShowroom.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("ShoowRoomEntityKey")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("ShowroomEntityKey")
+                    b.Property<long>("ShowroomKey")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("TotalItems")
+                    b.Property<int>("TotalItemsCount")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("TotalPrice")
@@ -140,7 +148,7 @@ namespace CarsShowroom.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShowroomEntityKey");
+                    b.HasIndex("ShowroomKey");
 
                     b.ToTable("Receipts");
                 });
@@ -180,6 +188,83 @@ namespace CarsShowroom.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.SoldExtraItemsEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<long?>("ReceiptEntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("VehicleModelKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiptEntityId");
+
+                    b.HasIndex("VehicleModelKey");
+
+                    b.ToTable("SoldExtraItemsEntity");
+                });
+
+            modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.SoldVehicleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Color")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<long>("ReceiptKey")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateOnly>("ReleaseDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Vin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiptKey")
+                        .IsUnique();
+
+                    b.ToTable("SoldVehicleEntity");
+                });
+
             modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.VehicleEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -198,29 +283,27 @@ namespace CarsShowroom.DataAccess.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<long?>("ReceiptEntityId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("ReleaseDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("ReleaseDate")
+                        .HasColumnType("date");
 
                     b.Property<long>("ShowroomEntityKey")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Uid")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<long>("VehicleModelId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Vin")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.HasIndex("ReceiptEntityId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ShowroomEntityKey");
 
                     b.HasIndex("VehicleModelId");
+
+                    b.HasIndex("Brand", "VehicleModelId", "Color")
+                        .IsUnique();
 
                     b.ToTable("Vehicles");
 
@@ -230,11 +313,11 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 1L,
                             Brand = "BMW",
                             Color = 4,
-                            Price = 3000000m,
-                            ReleaseDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Price = 2350000m,
+                            ReleaseDate = new DateOnly(2015, 1, 1),
                             ShowroomEntityKey = 1L,
-                            Uid = "23D34EC8-F83F-4BED-95D6-05BDE4F76222",
-                            VehicleModelId = 1L
+                            VehicleModelId = 1L,
+                            Vin = "23D34EC8-F83F-4BED-95D6-05BDE4F76222"
                         },
                         new
                         {
@@ -242,10 +325,10 @@ namespace CarsShowroom.DataAccess.Migrations
                             Brand = "BMW",
                             Color = 3,
                             Price = 3200000m,
-                            ReleaseDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ReleaseDate = new DateOnly(2017, 6, 13),
                             ShowroomEntityKey = 1L,
-                            Uid = "6786D736-1C1D-4375-8A35-6594E5133823",
-                            VehicleModelId = 1L
+                            VehicleModelId = 1L,
+                            Vin = "6786D736-1C1D-4375-8A35-6594E5133823"
                         },
                         new
                         {
@@ -253,10 +336,10 @@ namespace CarsShowroom.DataAccess.Migrations
                             Brand = "BMW",
                             Color = 3,
                             Price = 10200000m,
-                            ReleaseDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ReleaseDate = new DateOnly(2020, 11, 1),
                             ShowroomEntityKey = 1L,
-                            Uid = "8E10D3F9-FE4A-4023-9E44-505249AE95C5",
-                            VehicleModelId = 2L
+                            VehicleModelId = 2L,
+                            Vin = "8E10D3F9-FE4A-4023-9E44-505249AE95C5"
                         },
                         new
                         {
@@ -264,10 +347,10 @@ namespace CarsShowroom.DataAccess.Migrations
                             Brand = "Mercedes-Benz",
                             Color = 1,
                             Price = 3200000m,
-                            ReleaseDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ReleaseDate = new DateOnly(2016, 5, 10),
                             ShowroomEntityKey = 2L,
-                            Uid = "80070953-A133-41C2-AD49-BD51C30FC7AE",
-                            VehicleModelId = 3L
+                            VehicleModelId = 3L,
+                            Vin = "80070953-A133-41C2-AD49-BD51C30FC7AE"
                         },
                         new
                         {
@@ -275,10 +358,10 @@ namespace CarsShowroom.DataAccess.Migrations
                             Brand = "Mercedes-Benz",
                             Color = 5,
                             Price = 9450000m,
-                            ReleaseDate = new DateTime(2023, 3, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ReleaseDate = new DateOnly(2018, 3, 12),
                             ShowroomEntityKey = 2L,
-                            Uid = "BCC89D79-35D9-4AC2-8597-A837DED42699",
-                            VehicleModelId = 4L
+                            VehicleModelId = 4L,
+                            Vin = "BCC89D79-35D9-4AC2-8597-A837DED42699"
                         });
                 });
 
@@ -295,6 +378,9 @@ namespace CarsShowroom.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Model")
+                        .IsUnique();
 
                     b.ToTable("VehicleModels");
 
@@ -323,10 +409,6 @@ namespace CarsShowroom.DataAccess.Migrations
 
             modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.ExtraItemEntity", b =>
                 {
-                    b.HasOne("CarsShowroom.DataAccess.ContextEntities.ReceiptEntity", null)
-                        .WithMany("ExtraItems")
-                        .HasForeignKey("ReceiptEntityId");
-
                     b.HasOne("CarsShowroom.DataAccess.ContextEntities.ShowroomEntity", null)
                         .WithMany("ExtraItems")
                         .HasForeignKey("ShowroomEntityId");
@@ -344,19 +426,42 @@ namespace CarsShowroom.DataAccess.Migrations
                 {
                     b.HasOne("CarsShowroom.DataAccess.ContextEntities.ShowroomEntity", "Showroom")
                         .WithMany("Receipts")
-                        .HasForeignKey("ShowroomEntityKey")
+                        .HasForeignKey("ShowroomKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Showroom");
                 });
 
-            modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.VehicleEntity", b =>
+            modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.SoldExtraItemsEntity", b =>
                 {
                     b.HasOne("CarsShowroom.DataAccess.ContextEntities.ReceiptEntity", null)
-                        .WithMany("Vehicles")
+                        .WithMany("SoldExtraItems")
                         .HasForeignKey("ReceiptEntityId");
 
+                    b.HasOne("CarsShowroom.DataAccess.ContextEntities.VehicleModelEntity", "VehicleModel")
+                        .WithMany()
+                        .HasForeignKey("VehicleModelKey")
+                        .HasPrincipalKey("Model")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("VehicleModel");
+                });
+
+            modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.SoldVehicleEntity", b =>
+                {
+                    b.HasOne("CarsShowroom.DataAccess.ContextEntities.ReceiptEntity", "Receipt")
+                        .WithOne("SoldVehicle")
+                        .HasForeignKey("CarsShowroom.DataAccess.ContextEntities.SoldVehicleEntity", "ReceiptKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Receipt");
+                });
+
+            modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.VehicleEntity", b =>
+                {
                     b.HasOne("CarsShowroom.DataAccess.ContextEntities.ShowroomEntity", "Showroom")
                         .WithMany("Vehicles")
                         .HasForeignKey("ShowroomEntityKey")
@@ -376,9 +481,10 @@ namespace CarsShowroom.DataAccess.Migrations
 
             modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.ReceiptEntity", b =>
                 {
-                    b.Navigation("ExtraItems");
+                    b.Navigation("SoldExtraItems");
 
-                    b.Navigation("Vehicles");
+                    b.Navigation("SoldVehicle")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CarsShowroom.DataAccess.ContextEntities.ShowroomEntity", b =>

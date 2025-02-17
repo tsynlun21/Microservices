@@ -18,9 +18,9 @@ public class Receipt
     [Required]
     public DateTime Date { get; set; }
     
-    [JsonIgnore]
-    public List<Vehicle> Vehicles { get; set; }
+    [Required]
+    public Vehicle Vehicle { get; set; }
     
     [JsonIgnore]
-    public List<ExtraItem> ExtraItems { get; set; }
+    public List<ExtraItem>? ExtraItems { get; set; }
 }

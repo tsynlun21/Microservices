@@ -20,7 +20,7 @@ public static partial class ShowRoomMappers
             Price       = entity.Price,
             ExtraItems  = entity.VehicleModelEntity.ExtraItems != null ? entity.VehicleModelEntity.ExtraItems.Select(x => x.ToExtraItemDto()).ToList() : null,
             ReleaseDate = entity.ReleaseDate,
-            Vin         = entity.Uid
+            Vin         = entity.Vin
         };
     }
 
@@ -36,8 +36,24 @@ public static partial class ShowRoomMappers
             Color             = vehicle.Color,
             Price             = vehicle.Price,
             ReleaseDate       = vehicle.ReleaseDate,
-            Uid               = vehicle.Vin,
+            Vin               = vehicle.Vin,
             ShowroomEntityKey = showroomId
+        };
+    }
+
+    public static SoldVehicleEntity ToSoldVehicleEntity(this Vehicle vehicle)
+    {
+        if (vehicle == null)
+            return null;
+
+        return new SoldVehicleEntity()
+        {
+            Brand       = vehicle.Brand,
+            Color       = vehicle.Color,
+            Price       = vehicle.Price,
+            ReleaseDate = vehicle.ReleaseDate,
+            Vin         = vehicle.Vin,
+            Model       = vehicle.Model
         };
     }
 }

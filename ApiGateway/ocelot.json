@@ -1,0 +1,149 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl" : "http://localhost:5000"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/auth/register",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/auth/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5001
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/auth/login",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/auth/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5001
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/purchase/get-transactions",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/purchase/get-transactions",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5002
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/purchase/add-transaction",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/purchase/add-transaction",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5002
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/purchase/get-transaction-by-id",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/purchase/get-transaction-by-id",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5002
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/purchase/update-transaction",
+      "UpstreamHttpMethod": ["Put"],
+      "DownstreamPathTemplate": "/api/purchase/update-transaction",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5002
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/vehicles-by-showroom/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/showroom/vehicles-by-showroom/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "Limit": 2,
+        "PeriodTimespan": 10
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/vehicles-by-brand-and-model",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/showroom/vehicles-by-brand-and-model",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/extra-parts-for-model",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/showroom/extra-parts-for-model",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/vehicles-in-price",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/showroom/vehicles-in-price",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/add-vehicles",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/showroom/add-vehicles",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/add-extra-items",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/showroom/add-extra-items",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/showroom/buy",
+      "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/showroom/buy",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5003
+      }]
+    }
+  ]
+}

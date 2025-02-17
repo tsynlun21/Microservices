@@ -10,12 +10,18 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddControllers();
-        //builder.Services.AddAuthorization();
+        builder.Services.AddRouting(o => o.LowercaseUrls = true);
+        builder.Services.AddControllers(opts =>
+        {
+            opts.AddFilters();
+        });
+
         builder
             .AddSwagger()
             .AddDataContext()
-            .AddDomainServices();
+            .AddDomainServices()
+            .AddMassTransit()
+            .AddAuthentification();
         
         var app = builder.Build();
 
@@ -23,11 +29,15 @@ public class Program
         app.UseSwaggerUI();
 
         app.UseRouting();
+        
+        app.UseAuthentication();
+        app.UseAuthorization();
+        
         app.UseMiddleware<ExceptionHandlingMiddleware>();
-
         
         app.MapControllers();
 
+        app.Urls.Add("http://*:5003");
         app.Run();
     }
 }

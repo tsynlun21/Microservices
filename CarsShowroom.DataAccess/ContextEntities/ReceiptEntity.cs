@@ -7,15 +7,17 @@ namespace CarsShowroom.DataAccess.ContextEntities;
 public class ReceiptEntity
 {
     [Key]
-    public long Id { get; set; }  
+    public long Id { get; set; }
     
-    [ForeignKey("ShowroomEntityKey")]
+    [ForeignKey("ShowroomKey")]
     public ShowroomEntity Showroom { get; set; }
-    public int ShoowRoomEntityKey { get; set; }
+    public long ShowroomKey { get; set; }
     
-    public List<VehicleEntity> Vehicles { get; set; }
-    public List<ExtraItemEntity> ExtraItems { get; set; }
+    public List<SoldExtraItemsEntity> SoldExtraItems { get; set; }
+    
+    public SoldVehicleEntity SoldVehicle { get; set; }
     
     public decimal TotalPrice { get; set; }
-    public int TotalItems { get; set; }
+    
+    public int TotalItemsCount { get; set; }
 }
