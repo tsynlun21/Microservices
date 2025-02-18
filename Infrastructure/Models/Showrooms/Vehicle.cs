@@ -9,12 +9,13 @@ namespace Infrastructure.Models.Showrooms;
 public class Vehicle
 {
     public long VehicleId { get; set; }
+    public string Vin { get; set; }
     public string Brand { get; set; }
     public string Model { get; set; }
     public DateOnly ReleaseDate { get; set; }
     public LPCColors Color { get; set; }
     public decimal Price { get; set; }
-    public string Vin { get; set; }
+    public decimal Mileage { get; set; }
 
     [JsonIgnore] public List<ExtraItem>? ExtraItems { get; set; } = null;
 }

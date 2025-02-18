@@ -102,6 +102,7 @@ namespace CarsShowroom.DataAccess.Migrations
                     Vin = table.Column<string>(type: "text", nullable: false),
                     Brand = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Mileage = table.Column<decimal>(type: "numeric", nullable: false),
                     VehicleModelId = table.Column<long>(type: "bigint", nullable: false),
                     Color = table.Column<int>(type: "integer", nullable: false),
                     ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false)
@@ -159,11 +160,12 @@ namespace CarsShowroom.DataAccess.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ReceiptKey = table.Column<long>(type: "bigint", nullable: false),
+                    Vin = table.Column<string>(type: "text", nullable: false),
                     Brand = table.Column<string>(type: "text", nullable: false),
                     Model = table.Column<string>(type: "text", nullable: false),
-                    Color = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    Vin = table.Column<string>(type: "text", nullable: false),
+                    Mileage = table.Column<decimal>(type: "numeric", nullable: false),
+                    Color = table.Column<int>(type: "integer", nullable: false),
                     ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -213,14 +215,14 @@ namespace CarsShowroom.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
-                columns: new[] { "Id", "Brand", "Color", "Price", "ReleaseDate", "ShowroomEntityKey", "VehicleModelId", "Vin" },
+                columns: new[] { "Id", "Brand", "Color", "Mileage", "Price", "ReleaseDate", "ShowroomEntityKey", "VehicleModelId", "Vin" },
                 values: new object[,]
                 {
-                    { 1L, "BMW", 4, 2350000m, new DateOnly(2015, 1, 1), 1L, 1L, "23D34EC8-F83F-4BED-95D6-05BDE4F76222" },
-                    { 2L, "BMW", 3, 3200000m, new DateOnly(2017, 6, 13), 1L, 1L, "6786D736-1C1D-4375-8A35-6594E5133823" },
-                    { 3L, "BMW", 3, 10200000m, new DateOnly(2020, 11, 1), 1L, 2L, "8E10D3F9-FE4A-4023-9E44-505249AE95C5" },
-                    { 4L, "Mercedes-Benz", 1, 3200000m, new DateOnly(2016, 5, 10), 2L, 3L, "80070953-A133-41C2-AD49-BD51C30FC7AE" },
-                    { 5L, "Mercedes-Benz", 5, 9450000m, new DateOnly(2018, 3, 12), 2L, 4L, "BCC89D79-35D9-4AC2-8597-A837DED42699" }
+                    { 1L, "BMW", 4, 120000m, 2350000m, new DateOnly(2015, 1, 1), 1L, 1L, "23D34EC8-F83F-4BED-95D6-05BDE4F76222" },
+                    { 2L, "BMW", 3, 85000m, 3200000m, new DateOnly(2017, 6, 13), 1L, 1L, "6786D736-1C1D-4375-8A35-6594E5133823" },
+                    { 3L, "BMW", 3, 20000m, 10200000m, new DateOnly(2020, 11, 1), 1L, 2L, "8E10D3F9-FE4A-4023-9E44-505249AE95C5" },
+                    { 4L, "Mercedes-Benz", 1, 89000m, 3200000m, new DateOnly(2016, 5, 10), 2L, 3L, "80070953-A133-41C2-AD49-BD51C30FC7AE" },
+                    { 5L, "Mercedes-Benz", 5, 52000m, 9450000m, new DateOnly(2018, 3, 12), 2L, 4L, "BCC89D79-35D9-4AC2-8597-A837DED42699" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -273,9 +275,9 @@ namespace CarsShowroom.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vehicles_Brand_VehicleModelId_Color",
+                name: "IX_Vehicles_Brand_VehicleModelId_Color_Vin",
                 table: "Vehicles",
-                columns: new[] { "Brand", "VehicleModelId", "Color" },
+                columns: new[] { "Brand", "VehicleModelId", "Color", "Vin" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

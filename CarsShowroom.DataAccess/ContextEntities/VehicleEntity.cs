@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CarsShowroom.DataAccess.ContextEntities;
 
 [Table("Vehicles")]
-[Index(nameof(Brand), nameof(VehicleModelId), nameof(Color), IsUnique = true)]
+[Index(nameof(Brand), nameof(VehicleModelId), nameof(Color), nameof(Vin),IsUnique = true)]
 public class VehicleEntity
 {
     [Key]
@@ -19,6 +19,7 @@ public class VehicleEntity
     public string Vin { get; set; }
     public string Brand { get; set; }
     public decimal Price { get; set; }
+    public decimal Mileage { get; set; }
     
     [ForeignKey("VehicleModelId")]
     public VehicleModelEntity VehicleModelEntity { get; set; }

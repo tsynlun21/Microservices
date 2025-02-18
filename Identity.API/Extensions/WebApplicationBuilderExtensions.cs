@@ -34,17 +34,6 @@ public static class WebApplicationBuilderExtensions
                     Version = "v1"
                 });
 
-            // opt.AddSecurityDefinition(
-            //     name: "Bearer",
-            //     securityScheme: new OpenApiSecurityScheme
-            //     {
-            //         In = ParameterLocation.Header,
-            //         Description = "please insert JWT token",
-            //         Name = "Authorization",
-            //         Type = SecuritySchemeType.Http,
-            //         Scheme = "Bearer",
-            //     });
-
             opt.AddSecurityDefinition(
                 name: "Bearer",
                 securityScheme: new OpenApiSecurityScheme

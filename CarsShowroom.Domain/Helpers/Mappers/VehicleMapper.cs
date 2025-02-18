@@ -20,7 +20,8 @@ public static partial class ShowRoomMappers
             Price       = entity.Price,
             ExtraItems  = entity.VehicleModelEntity.ExtraItems != null ? entity.VehicleModelEntity.ExtraItems.Select(x => x.ToExtraItemDto()).ToList() : null,
             ReleaseDate = entity.ReleaseDate,
-            Vin         = entity.Vin
+            Vin         = entity.Vin,
+            Mileage = entity.Mileage,
         };
     }
 
@@ -37,7 +38,8 @@ public static partial class ShowRoomMappers
             Price             = vehicle.Price,
             ReleaseDate       = vehicle.ReleaseDate,
             Vin               = vehicle.Vin,
-            ShowroomEntityKey = showroomId
+            ShowroomEntityKey = showroomId,
+            Mileage         = vehicle.Mileage,
         };
     }
 
@@ -53,7 +55,8 @@ public static partial class ShowRoomMappers
             Price       = vehicle.Price,
             ReleaseDate = vehicle.ReleaseDate,
             Vin         = vehicle.Vin,
-            Model       = vehicle.Model
+            Model       = vehicle.Model,
+            Mileage = vehicle.Mileage,
         };
     }
 }

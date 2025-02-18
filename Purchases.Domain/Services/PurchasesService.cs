@@ -107,11 +107,10 @@ public class PurchasesService(PurchasesDbContext context) : IPurchasesService
         {
             customer = (await context.Customers.AddAsync(new CustomerEntity()
             {
-                CustomerId = "1", //todo
+                CustomerId = customerId
             })).Entity;
             await context.SaveChangesAsync();
         }
         return customer;
-        return null;
     }
 }

@@ -13,10 +13,11 @@ public class SoldVehicleEntity
     public ReceiptEntity Receipt { get; set; }
     public long ReceiptKey { get; set; }
     
+    public string Vin { get; set; }
     public string Brand { get; set; }
     public string Model { get; set; }
-    public LPCColors Color { get; set; }
     public decimal Price { get; set; }
-    public string Vin { get; set; }
+    public decimal Mileage { get; set; }
+    public LPCColors Color { get; set; }
     public DateOnly ReleaseDate { get; set; }
 }

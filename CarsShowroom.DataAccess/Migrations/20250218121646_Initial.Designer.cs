@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarsShowroom.DataAccess.Migrations
 {
     [DbContext(typeof(ShowroomDbContext))]
-    [Migration("20250217090124_Initial")]
+    [Migration("20250218121646_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -243,6 +243,9 @@ namespace CarsShowroom.DataAccess.Migrations
                     b.Property<int>("Color")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("Mileage")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("text");
@@ -283,6 +286,9 @@ namespace CarsShowroom.DataAccess.Migrations
                     b.Property<int>("Color")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("Mileage")
+                        .HasColumnType("numeric");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
@@ -305,7 +311,7 @@ namespace CarsShowroom.DataAccess.Migrations
 
                     b.HasIndex("VehicleModelId");
 
-                    b.HasIndex("Brand", "VehicleModelId", "Color")
+                    b.HasIndex("Brand", "VehicleModelId", "Color", "Vin")
                         .IsUnique();
 
                     b.ToTable("Vehicles");
@@ -316,6 +322,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 1L,
                             Brand = "BMW",
                             Color = 4,
+                            Mileage = 120000m,
                             Price = 2350000m,
                             ReleaseDate = new DateOnly(2015, 1, 1),
                             ShowroomEntityKey = 1L,
@@ -327,6 +334,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 2L,
                             Brand = "BMW",
                             Color = 3,
+                            Mileage = 85000m,
                             Price = 3200000m,
                             ReleaseDate = new DateOnly(2017, 6, 13),
                             ShowroomEntityKey = 1L,
@@ -338,6 +346,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 3L,
                             Brand = "BMW",
                             Color = 3,
+                            Mileage = 20000m,
                             Price = 10200000m,
                             ReleaseDate = new DateOnly(2020, 11, 1),
                             ShowroomEntityKey = 1L,
@@ -349,6 +358,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 4L,
                             Brand = "Mercedes-Benz",
                             Color = 1,
+                            Mileage = 89000m,
                             Price = 3200000m,
                             ReleaseDate = new DateOnly(2016, 5, 10),
                             ShowroomEntityKey = 2L,
@@ -360,6 +370,7 @@ namespace CarsShowroom.DataAccess.Migrations
                             Id = 5L,
                             Brand = "Mercedes-Benz",
                             Color = 5,
+                            Mileage = 52000m,
                             Price = 9450000m,
                             ReleaseDate = new DateOnly(2018, 3, 12),
                             ShowroomEntityKey = 2L,

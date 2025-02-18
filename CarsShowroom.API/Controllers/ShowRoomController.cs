@@ -44,7 +44,7 @@ public class ShowRoomController
         return Ok(ApiResult<VehiclesResponse>.Success200(res));
     }
 
-    [HttpGet("extra-parts-for-model")]
+    [HttpGet("extra-parts-for-model")] 
     public async Task<IActionResult> GetExtraParts([FromQuery] string model)
     {
         var res = await RabbitWorker.GetRabbitMessageResponse<GetExtraPartsRequest, ExtraItemsResponse>(
@@ -61,7 +61,7 @@ public class ShowRoomController
         (
             request, busControl, rabbitMqUri
         );
-
+        
         return Ok(ApiResult<VehicleInPriceResponse>.Success200(res));
     }
 
@@ -90,10 +90,13 @@ public class ShowRoomController
     public async Task<IActionResult> BuyVehicle([FromBody] BuyVehicleRequest request)
     {
         if (!ModelState.IsValid) return BadRequest();
-        var user     = HttpContext.Items["User"] as User;
+        var user     = HttpContext.User.Identity!.Name;
         var purchase = await RabbitWorker.GetRabbitMessageResponse<BuyVehicleMessageRequest, Purchase>(new BuyVehicleMessageRequest()
         {
-            User = user,
+            User = new User()
+            {
+                UserName = user,
+            },
             Purchase = request.Purchase,
             ShowroomId = request.ShowroomId
         }, busControl, rabbitMqUri);

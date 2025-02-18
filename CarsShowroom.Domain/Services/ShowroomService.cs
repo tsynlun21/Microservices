@@ -133,7 +133,7 @@ public class ShowroomService(ShowroomDbContext context) : IShowroomService
                 if (alreadyExists != null)
                 {
                     res.Add(vehicle.ToVehicleEntity(vehiclesPerShowroom.ShowroomId, alreadyExists.Id));
-                }
+                } 
                 else
                 {
                     var newVehicleModel = new VehicleModelEntity()
@@ -218,7 +218,7 @@ public class ShowroomService(ShowroomDbContext context) : IShowroomService
                 throw new BadRequestException($"Extra item [{extraItem.Name}] not found for vehicle model [{vehicleModel.Model}] you want to buy");
 
             if (extraItemEntity.Count < extraItem.Count)
-                throw new BadRequestException($"There are not enought extra items available to buy");
+                throw new BadRequestException($"There are not enough extra items available to buy");
             
             extraItemEntity.Count -= extraItem.Count;
             var extraItemConfirmed = extraItemEntity.ToExtraItemDto();

@@ -22,8 +22,8 @@ public class ShowroomDbContext : DbContext
             .WithMany()
             .HasForeignKey(s => s.VehicleModelKey)
             .HasPrincipalKey(m => m.Model);
-            
-        
+
+
         modelBuilder.Entity<ShowroomEntity>().HasData(new ShowroomEntity()
         {
             Id            = 1,
@@ -70,7 +70,7 @@ public class ShowroomDbContext : DbContext
                 Type                  = ExtraItemType.Electronic,
                 VehicleModelEntityKey = 1,
                 Count                 = 10,
-                Price = 185_000,
+                Price                 = 185_000,
             },
             new ExtraItemEntity()
             {
@@ -79,7 +79,7 @@ public class ShowroomDbContext : DbContext
                 Type                  = ExtraItemType.Electronic,
                 VehicleModelEntityKey = 2,
                 Count                 = 10,
-                Price = 160_000
+                Price                 = 160_000
             },
             new ExtraItemEntity()
             {
@@ -88,7 +88,7 @@ public class ShowroomDbContext : DbContext
                 Type                  = ExtraItemType.Exterior,
                 VehicleModelEntityKey = 2,
                 Count                 = 3,
-                Price = 750_000
+                Price                 = 750_000
             },
             new ExtraItemEntity()
             {
@@ -137,7 +137,8 @@ public class ShowroomDbContext : DbContext
             VehicleModelId    = 1,
             Color             = LPCColors.CianGray,
             Price             = 2_350_000,
-            Vin               = "23D34EC8-F83F-4BED-95D6-05BDE4F76222"
+            Vin               = "23D34EC8-F83F-4BED-95D6-05BDE4F76222",
+            Mileage           = 120_000
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
@@ -148,7 +149,8 @@ public class ShowroomDbContext : DbContext
             VehicleModelId    = 1,
             Color             = LPCColors.Blue,
             Price             = 3_200_000,
-            Vin               = "6786D736-1C1D-4375-8A35-6594E5133823"
+            Vin               = "6786D736-1C1D-4375-8A35-6594E5133823",
+            Mileage           = 85_000,
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
@@ -159,7 +161,8 @@ public class ShowroomDbContext : DbContext
             VehicleModelId    = 2,
             Color             = LPCColors.Blue,
             Price             = 10_200_000,
-            Vin               = "8E10D3F9-FE4A-4023-9E44-505249AE95C5"
+            Vin               = "8E10D3F9-FE4A-4023-9E44-505249AE95C5",
+            Mileage           = 20_000,
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
@@ -170,7 +173,8 @@ public class ShowroomDbContext : DbContext
             VehicleModelId    = 3,
             Color             = LPCColors.Red,
             Price             = 3_200_000,
-            Vin               = "80070953-A133-41C2-AD49-BD51C30FC7AE"
+            Vin               = "80070953-A133-41C2-AD49-BD51C30FC7AE",
+            Mileage           = 89_000,
         });
         modelBuilder.Entity<VehicleEntity>().HasData(new VehicleEntity()
         {
@@ -181,7 +185,8 @@ public class ShowroomDbContext : DbContext
             VehicleModelId    = 4,
             Color             = LPCColors.Silver,
             Price             = 9_450_000,
-            Vin               = "BCC89D79-35D9-4AC2-8597-A837DED42699"
+            Vin               = "BCC89D79-35D9-4AC2-8597-A837DED42699",
+            Mileage           = 52_000,
         });
     }
 
