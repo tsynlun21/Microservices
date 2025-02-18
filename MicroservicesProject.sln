@@ -1,42 +1,42 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0659AE81-3B6E-4681-A996-E23AC37AA747}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Microservices", "{0659AE81-3B6E-4681-A996-E23AC37AA747}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Showrooms", "Showrooms", "{26798DB9-DF26-48DF-BA1E-B99C0CC03F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsShowroom.API", "CarsShowroom.API\CarsShowroom.API.csproj", "{7F9206BC-AEC9-4CFC-9FE4-D09C4AAD469B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsShowroom.API", "Microservices\CarsShowroom\CarsShowroom.API\CarsShowroom.API.csproj", "{7F9206BC-AEC9-4CFC-9FE4-D09C4AAD469B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsShowroom.Domain", "CarsShowroom.Domain\CarsShowroom.Domain.csproj", "{4D9954DD-9886-4BD0-82AD-442E6F5FEC22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsShowroom.Domain", "Microservices\CarsShowroom\CarsShowroom.Domain\CarsShowroom.Domain.csproj", "{4D9954DD-9886-4BD0-82AD-442E6F5FEC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsShowroom.DataAccess", "CarsShowroom.DataAccess\CarsShowroom.DataAccess.csproj", "{399E1426-D87F-47C0-95F4-C6B10C6E0513}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarsShowroom.DataAccess", "Microservices\CarsShowroom\CarsShowroom.DataAccess\CarsShowroom.DataAccess.csproj", "{399E1426-D87F-47C0-95F4-C6B10C6E0513}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{AD054882-E5DD-49E4-8A2D-6DABE0CF96B2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Purchases", "Purchases", "{ED641D08-DA3C-4C8E-8959-9A4DE2D7A8DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.API", "Purchases.API\Purchases.API.csproj", "{6D62AFFA-0AA4-4706-9692-9A396A365199}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.API", "Microservices\Purchases\Purchases.API\Purchases.API.csproj", "{6D62AFFA-0AA4-4706-9692-9A396A365199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.Domain", "Purchases.Domain\Purchases.Domain.csproj", "{D60984F5-B159-4A81-B3D9-2DD82B64EA15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.Domain", "Microservices\Purchases\Purchases.Domain\Purchases.Domain.csproj", "{D60984F5-B159-4A81-B3D9-2DD82B64EA15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.DataAccesss", "Purchases.DataAccesss\Purchases.DataAccesss.csproj", "{39DF8589-C621-4903-9081-5329C030D37F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Purchases.DataAccesss", "Microservices\Purchases\Purchases.DataAccesss\Purchases.DataAccesss.csproj", "{39DF8589-C621-4903-9081-5329C030D37F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{3C6AE2B6-49EF-43D7-A7A2-D111B568F477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.API", "Identity.API\Identity.API.csproj", "{6033962C-6799-413B-A08B-FE0681D5AC83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.API", "Microservices\Identity\Identity.API\Identity.API.csproj", "{6033962C-6799-413B-A08B-FE0681D5AC83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.DataAccess", "Identity.DataAccess\Identity.DataAccess.csproj", "{EB62D46F-1EB6-403E-AED7-9062D6381F78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.DataAccess", "Microservices\Identity\Identity.DataAccess\Identity.DataAccess.csproj", "{EB62D46F-1EB6-403E-AED7-9062D6381F78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Domain", "Identity.Domain\Identity.Domain.csproj", "{53E34F0B-36F3-4F6D-8527-24853E6AA28F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Domain", "Microservices\Identity\Identity.Domain\Identity.Domain.csproj", "{53E34F0B-36F3-4F6D-8527-24853E6AA28F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{DFC6E60A-C1E6-4087-9B09-4A217E08A240}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CarHistory", "CarHistory", "{7ABD8F6D-6BFB-4795-8E67-38DE1A0D8FE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarHistory.API", "CarHistory.API\CarHistory.API.csproj", "{0DC48DD4-6E4C-415E-8571-55964B42595F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarHistory.API", "Microservices\CarHistory\CarHistory.API\CarHistory.API.csproj", "{0DC48DD4-6E4C-415E-8571-55964B42595F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarHistory.Domain", "CarHistory.Domain\CarHistory.Domain.csproj", "{694E5BA8-A5E2-4E04-AB40-4EC7A3D0F5C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarHistory.Domain", "Microservices\CarHistory\CarHistory.Domain\CarHistory.Domain.csproj", "{694E5BA8-A5E2-4E04-AB40-4EC7A3D0F5C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarHistory.DataAccess", "CarHistory.DataAccess\CarHistory.DataAccess.csproj", "{EC11B93B-F307-41C9-979D-19684302A778}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarHistory.DataAccess", "Microservices\CarHistory\CarHistory.DataAccess\CarHistory.DataAccess.csproj", "{EC11B93B-F307-41C9-979D-19684302A778}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
