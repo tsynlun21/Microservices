@@ -17,7 +17,7 @@ public class Vehicle
     public decimal Price { get; set; }
     public decimal Mileage { get; set; }
 
-    [JsonIgnore] public List<ExtraItem>? ExtraItems { get; set; } = null;
+    [JsonIgnore] public List<ExtraPart>? ExtraItems { get; set; } = null;
 }
 
 internal class VehicleValidationAttribute : ValidationAttribute

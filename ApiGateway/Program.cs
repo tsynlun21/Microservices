@@ -12,7 +12,7 @@ builder.Services.AddOcelot(builder.Configuration)
         x.WithDictionaryHandle();
     });
 
-builder.Services.AddJwtAuthentication(builder.Configuration["Authentification:SecretKey"]);
+builder.Services.AddJwtAuthentication(builder.Configuration["Authentication:SecretKey"]);
 
 var app     = builder.Build();
 

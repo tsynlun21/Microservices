@@ -22,5 +22,5 @@ public class Receipt
     public Vehicle Vehicle { get; set; }
     
     [JsonIgnore]
-    public List<ExtraItem>? ExtraItems { get; set; }
+    public List<ExtraPart>? ExtraItems { get; set; }
 }

@@ -9,7 +9,7 @@ public class Transaction
     
     public Vehicle Vehicle { get; set; }
     
-    public List<ExtraItem> ExtraItems { get; set; }
+    public List<ExtraPart> ExtraItems { get; set; }
     
     public DateTime Date { get; set; }
     

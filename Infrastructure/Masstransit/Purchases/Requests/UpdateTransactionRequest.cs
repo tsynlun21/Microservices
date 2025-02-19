@@ -5,6 +5,6 @@ namespace Infrastructure.Masstransit.Purchases.Requests;
 
 public class UpdateTransactionRequest
 {
-    public User User { get; set; }
+    public UserModel User { get; set; }
     public UpdateTransaction Transaction { get; set; }
 }

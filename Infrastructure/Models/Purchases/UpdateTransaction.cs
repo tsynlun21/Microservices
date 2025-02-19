@@ -14,7 +14,7 @@ public class UpdateTransaction
     
     public Vehicle Vehicle { get; set; }
     
-    public List<ExtraItem> ExtraItems { get; set; }
+    public List<ExtraPart> ExtraItems { get; set; }
     
     [RequiredTransactionType]
     public TransactionType Type { get; set; }

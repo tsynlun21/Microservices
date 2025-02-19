@@ -1,3 +1,6 @@
-﻿namespace Infrastructure.Exceptions;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 
-public class NotFoundException(string message) : Exception(message);
+namespace Infrastructure.Exceptions;
+
+public class NotFoundException(string message) : DomainException(StatusCodes.Status404NotFound ,message);

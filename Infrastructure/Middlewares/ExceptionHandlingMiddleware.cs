@@ -2,13 +2,14 @@
 using System.Text.Json;
 using Infrastructure.Exceptions;
 using Infrastructure.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Infrastructure.Middlewares;
 
-public class ExceptionHandlingMiddleware (RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
     public async Task InvokeAsync(HttpContext httpContext)
     {
@@ -26,19 +27,29 @@ public class ExceptionHandlingMiddleware (RequestDelegate next, ILogger<Exceptio
     {
         await LogError(httpContext.Request, exception);
 
-        var code = exception switch
+        var exceptionFault = exception as RequestFaultException;
+
+        int code = StatusCodes.Status500InternalServerError;
+        string message = exception.Message;
+        if (exceptionFault != null)
         {
-            NotFoundException => StatusCodes.Status404NotFound,
-            _                 => StatusCodes.Status500InternalServerError
-        };
-        
-        var result = JsonSerializer.Serialize(ApiResult<string>.Failure(code, [exception.Message]), new JsonSerializerOptions()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseUpper,
-        });
-        
+            var requestExceptionTypeName = exceptionFault.Fault?.Exceptions.FirstOrDefault()?.ExceptionType ?? string.Empty;
+            
+            if (requestExceptionTypeName == typeof(NotFoundException).FullName)
+                code = StatusCodes.Status404NotFound;
+            if (requestExceptionTypeName == typeof(BadRequestException).FullName)
+                code = StatusCodes.Status400BadRequest;
+            message = exceptionFault.Fault?.Exceptions.FirstOrDefault()?.Message ?? message;
+        }
+
+        var result = JsonSerializer.Serialize(ApiResult<string>.Failure(code, message),
+            new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseUpper,
+            });
+
         httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = code;
+        httpContext.Response.StatusCode  = code;
 
         await httpContext.Response.WriteAsync(result);
     }
@@ -46,16 +57,16 @@ public class ExceptionHandlingMiddleware (RequestDelegate next, ILogger<Exceptio
     private async Task LogError(HttpRequest httpContextRequest, Exception exception)
     {
         var requestPath = httpContextRequest.Path;
-        
+
         var requestMethod = httpContextRequest.Method;
-        
+
         var queryParameters = httpContextRequest.QueryString.HasValue
             ? httpContextRequest.QueryString.Value
             : String.Empty;
-        
+
         var headers = httpContextRequest.Headers
             .ToDictionary(h => h.Key, h => h.Value.ToString());
-        
+
         string requestBody = null;
         if (httpContextRequest.Body.CanRead)
         {
@@ -63,10 +74,10 @@ public class ExceptionHandlingMiddleware (RequestDelegate next, ILogger<Exceptio
             //httpContextRequest.Body.Position = 0;
 
             //requestBody = JsonSerializer.Serialize(httpContextRequest.Body);
-            
+
             //httpContextRequest.Body.Position = 0;
         }
-        
+
         var logMessage = $"""
                           Request Path: {requestPath}
                           Method: {requestMethod}

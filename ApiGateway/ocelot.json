@@ -9,7 +9,7 @@
       "DownstreamPathTemplate": "/api/auth/register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5001
       }]
     },
@@ -19,17 +19,30 @@
       "DownstreamPathTemplate": "/api/auth/login",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5001
       }]
     },
     {
-      "UpstreamPathTemplate": "/gateway/purchase/get-transactions",
+      "UpstreamPathTemplate": "/gateway/auth/set-role",
       "UpstreamHttpMethod": ["Post"],
+      "DownstreamPathTemplate": "/api/auth/set-role",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "host.docker.internal",
+        "Port": 5001
+      }],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/purchase/get-transactions",
+      "UpstreamHttpMethod": ["Get"],
       "DownstreamPathTemplate": "/api/purchase/get-transactions",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5002
       }],
       "AuthenticationOptions": {
@@ -42,7 +55,7 @@
       "DownstreamPathTemplate": "/api/purchase/add-transaction",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5002
       }],
       "AuthenticationOptions": {
@@ -50,12 +63,12 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/purchase/get-transaction-by-id",
-      "UpstreamHttpMethod": ["Post"],
-      "DownstreamPathTemplate": "/api/purchase/get-transaction-by-id",
+      "UpstreamPathTemplate": "/gateway/purchase/get-transaction-by-id/{id}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/purchase/get-transaction-by-id/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5002
       }],
       "AuthenticationOptions": {
@@ -68,7 +81,7 @@
       "DownstreamPathTemplate": "/api/purchase/update-transaction",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5002
       }],
       "AuthenticationOptions": {
@@ -81,7 +94,7 @@
       "DownstreamPathTemplate": "/api/showroom/vehicles-by-showroom/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }],
       "RateLimitOptions": {
@@ -92,9 +105,6 @@
       },
       "FileCacheOptions": {
         "TtlSeconds": 30
-      },
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
@@ -103,17 +113,17 @@
       "DownstreamPathTemplate": "/api/showroom/vehicles-by-brand-and-model",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }]
     },
     {
-      "UpstreamPathTemplate": "/gateway/showroom/extra-parts-for-model",
-      "UpstreamHttpMethod": ["Post"],
-      "DownstreamPathTemplate": "/api/showroom/extra-parts-for-model",
+      "UpstreamPathTemplate": "/gateway/showroom/extra-parts-for-model/{model}",
+      "UpstreamHttpMethod": ["Get"],
+      "DownstreamPathTemplate": "/api/showroom/extra-parts-for-model/{get}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }]
     },
@@ -123,7 +133,7 @@
       "DownstreamPathTemplate": "/api/showroom/vehicles-in-price",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }]
     },
@@ -133,7 +143,7 @@
       "DownstreamPathTemplate": "/api/showroom/add-vehicles",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }],
       "AuthenticationOptions": {
@@ -141,12 +151,12 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/showroom/add-extra-items",
+      "UpstreamPathTemplate": "/gateway/showroom/add-extra-parts",
       "UpstreamHttpMethod": ["Post"],
-      "DownstreamPathTemplate": "/api/showroom/add-extra-items",
+      "DownstreamPathTemplate": "/api/showroom/add-extra-parts",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }],
       "AuthenticationOptions": {
@@ -159,7 +169,7 @@
       "DownstreamPathTemplate": "/api/showroom/buy",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5003
       }],
       "AuthenticationOptions": {
@@ -167,12 +177,12 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/showroom/",
+      "UpstreamPathTemplate": "/gateway/car_history/",
       "UpstreamHttpMethod": ["Post"],
       "DownstreamPathTemplate": "/api/car_history/",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5004
       }],
       "AuthenticationOptions": {
@@ -180,12 +190,12 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/gateway/car_history/",
+      "UpstreamPathTemplate": "/gateway/car_history/{vin}",
       "UpstreamHttpMethod": ["Get"],
-      "DownstreamPathTemplate": "/api/car_history/",
+      "DownstreamPathTemplate": "/api/car_history/{vin}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
-        "Host": "localhost",
+        "Host": "host.docker.internal",
         "Port": 5004
       }]
     }

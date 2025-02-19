@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Configuration;
 
-public static class AuthentificationConfiguration
+public static class AuthenticationConfiguration
 {
     public static void AddJwtAuthentication(this IServiceCollection services, string secretKey)
     {
@@ -25,10 +25,8 @@ public static class AuthentificationConfiguration
                     IssuerSigningKey =
                         new SymmetricSecurityKey(
                             Encoding.ASCII.GetBytes(secretKey)),
-                    ValidIssuer      = "test",
-                    ValidAudience    = "test",
-                    ValidateIssuer   = true,
-                    ValidateAudience = true,
+                    ValidateIssuer   = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     
                     ValidateIssuerSigningKey = true

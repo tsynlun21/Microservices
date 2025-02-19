@@ -2,7 +2,8 @@
 
 namespace Infrastructure.Models.Identity;
 
-public class User : IdentityUser
+public class User1
 {
-    
+    public string Id { get; set; }
+    public string UserName { get; set; }
 }

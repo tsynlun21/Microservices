@@ -6,7 +6,7 @@ namespace Infrastructure.Masstransit.Showrooms.Requests;
 
 public class BuyVehicleMessageRequest : BuyVehicleRequest
 {
-    public User? User { get; set; }
+    public UserModel User { get; set; }
 }
 
 public class BuyVehicleRequest

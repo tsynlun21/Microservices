@@ -4,6 +4,6 @@ namespace Infrastructure.Masstransit.Purchases.Requests;
 
 public class GetTransactionByIdRequest
 {
-    public User User { get; set; }
+    public UserModel User { get; set; }
     public long TransactionId { get; set; }
 }

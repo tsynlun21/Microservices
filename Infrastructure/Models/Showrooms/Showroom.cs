@@ -13,5 +13,5 @@ public class Showroom
     public List<Vehicle> Vehicles { get; set; }
     
     [JsonIgnore]
-    public List<ExtraItem> ExtraItems { get; set; }
+    public List<ExtraPart> ExtraItems { get; set; }
 }
