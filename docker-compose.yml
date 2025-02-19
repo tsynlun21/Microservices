@@ -1,0 +1,69 @@
+services:
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:4.0-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  postgres:
+    image: postgres:17.3
+    restart: always
+    environment:
+      POSTGRES_USER : postgres
+      POSTGRES_PASSWORD : admin
+    ports:
+      - "5432:5432"
+  car-history-db:
+      image: mongo:latest
+      restart: always
+      ports:
+        - "27017:27017"
+  api.gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+      no_cache: true
+    restart: always
+    ports:
+      - "5000:5000"
+  identity.api:
+    build:
+      context: .
+      dockerfile: Microservices/Identity/Identity.API/Dockerfile
+      no_cache: true
+    restart: always
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+  car-purchases.api:
+    build:
+      context: .
+      dockerfile: Microservices/Purchases/Purchases.API/Dockerfile
+      no_cache: true
+    restart: always
+    ports:
+      - "5002:5002"
+    depends_on:
+      - postgres
+  car-showroom.api:
+    build:
+      context: .
+      dockerfile: Microservices/CarsShowroom/CarsShowroom.API/Dockerfile
+      no_cache: true
+    restart: always
+    ports:
+      - "5003:5003"
+    depends_on:
+      - postgres
+  car-history.api:
+    build:
+      context: .
+      dockerfile: Microservices/CarHistory/CarHistory.API/Dockerfile
+      no_cache: true
+    restart: always
+    ports:
+      - "5004:5004"
+    depends_on:
+      - car-history-db

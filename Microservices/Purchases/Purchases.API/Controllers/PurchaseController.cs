@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Masstransit;
 using Infrastructure.Masstransit.Purchases.Requests;
-using Infrastructure.Masstransit.Purchases.Responses;
 using Infrastructure.Models;
 using Infrastructure.Models.Identity;
 using Infrastructure.Models.Purchases;
@@ -12,41 +11,61 @@ namespace Purchases.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class PurchaseController(IBusControl busController) : ControllerBase
 {
     private Uri _rabbitMqPurchaseUri = new Uri($"queue:{RabbitQueueNames.PURCHASES}");
 
-    [HttpPost("get-transactions")]
-    [Authorize]
-    public async Task<IActionResult> GetTransactions([FromBody] GetTransactionsRequest request)
+    [HttpGet("get-transactions")]
+    public async Task<IActionResult> GetTransactions()
     {
-        var res = await RabbitWorker.GetRabbitMessageResponse<GetTransactionsRequest, TransactionsResponse>(request, busController, _rabbitMqPurchaseUri);
-        return Ok(ApiResult<TransactionsResponse>.Success200(res));
+        var userFromContext = HttpContext.Items["User"] as UserModel;
+
+        var res = await RabbitWorker.GetRabbitMessageResponse<GetTransactionsRequest, Transaction[]>(
+            new GetTransactionsRequest()
+            {
+                user = userFromContext!
+            }, busController, _rabbitMqPurchaseUri);
+
+        return Ok(ApiResult<Transaction[]>.Success200(res));
     }
 
     [HttpPost("add-transaction")]
-    [Authorize]
-    public async Task<IActionResult> AddTransaction([FromBody] AddTransactionRequest request)
+    public async Task<IActionResult> AddTransaction([FromBody] Transaction request)
     {
-        var res = await RabbitWorker.GetRabbitMessageResponse<AddTransactionRequest, BaseMasstransitResponse>(request, busController, _rabbitMqPurchaseUri);
-        return Ok(ApiResult<BaseMasstransitResponse>.Success200(res));
-    }
-
-    [HttpPost("get-transaction-by-id")]
-    [Authorize]
-    public async Task<IActionResult> GetTransactionById([FromBody] GetTransactionByIdRequest request)
-    {
-        var res = await RabbitWorker.GetRabbitMessageResponse<GetTransactionByIdRequest, Transaction>(request, busController, _rabbitMqPurchaseUri);
+        var userFromContext = HttpContext.Items["User"] as UserModel;
+        var res = await RabbitWorker.GetRabbitMessageResponse<AddTransactionRequest, Transaction>(new()
+        {
+            Transaction = request,
+            User        = userFromContext!
+        }, busController, _rabbitMqPurchaseUri);
         
         return Ok(ApiResult<Transaction>.Success200(res));
     }
 
-    [HttpPut("update-transaction")]
-    [Authorize(Roles = RoleConstants.Admin)]
-    public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransactionRequest request)
+    [HttpGet("get-transaction-by-id")]
+    public async Task<IActionResult> GetTransactionById([FromRoute] long id)
     {
-        var res = await RabbitWorker.GetRabbitMessageResponse<UpdateTransactionRequest, BaseMasstransitResponse>(request, busController, _rabbitMqPurchaseUri);
-        
-        return Ok(ApiResult<BaseMasstransitResponse>.Success200(res));
-    } 
+        var userFromContext = HttpContext.Items["User"] as UserModel;
+        var res = await RabbitWorker.GetRabbitMessageResponse<GetTransactionByIdRequest, Transaction>(new()
+        {
+            User          = userFromContext!,
+            TransactionId = id
+        }, busController, _rabbitMqPurchaseUri);
+
+        return Ok(ApiResult<Transaction>.Success200(res));
+    }
+
+    [HttpPut("update-transaction")]
+    public async Task<IActionResult> UpdateTransaction([FromBody] UpdateTransaction request)
+    {
+        var userFromContext = HttpContext.Items["User"] as UserModel;
+        var res = await RabbitWorker.GetRabbitMessageResponse<UpdateTransactionRequest, Transaction>(new()
+        {
+            User        = userFromContext!,
+            Transaction = request,
+        }, busController, _rabbitMqPurchaseUri);
+
+        return Ok(ApiResult<Transaction>.Success200(res));
+    }
 }

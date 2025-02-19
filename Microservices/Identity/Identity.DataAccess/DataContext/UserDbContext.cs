@@ -6,42 +6,52 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.DataAccess.DataContext;
 
-public class UserDbContext : IdentityDbContext<UserEntity, IdentityRoleEntity, long>
+public class UserDbContext : IdentityDbContext<UserEntity, IdentityRoleEntity, string>
 {
-    
     public UserDbContext(DbContextOptions options) : base(options)
     {
-        if (Database.GetPendingMigrations().Any())
-            Database.Migrate();
+        Database.EnsureCreated();
+         // if (Database.GetPendingMigrations().Any())
+         //     Database.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<IdentityRoleEntity>().HasData(new[]
-        {
+        base.OnModelCreating(builder);
+        
+        builder.Entity<UserEntity>()
+            .Property(u => u.Id)
+            .ValueGeneratedOnAdd();
+        
+        builder.Entity<IdentityRoleEntity>()
+            .Property(r => r.Id)
+            .ValueGeneratedOnAdd();
+        
+        builder.Entity<IdentityRoleEntity>().HasData(
+        [
             new IdentityRoleEntity
             {
-                Id             = 1,
+                Id             = "@dm1n",
                 Name           = RoleConstants.Admin,
                 NormalizedName = RoleConstants.Admin.ToUpper(),
             },
             new IdentityRoleEntity
             {
-                Id             = 2,
+                Id             = "m39ch4n7",
                 Name           = RoleConstants.Merchant,
                 NormalizedName = RoleConstants.Merchant.ToUpper(),
             },
             new IdentityRoleEntity
             {
-                Id             = 3,
+                Id             = "u539",
                 Name           = RoleConstants.User,
                 NormalizedName = RoleConstants.User.ToUpper(),
             },
-        });
+        ]);
 
         var adminUser = new UserEntity
         {
-            Id                 = 1,
+            Id                 = Guid.NewGuid().ToString(),
             Email              = "admin@admin.com",
             NormalizedEmail    = "admin@admin.com",
             EmailConfirmed     = true,
@@ -53,12 +63,12 @@ public class UserDbContext : IdentityDbContext<UserEntity, IdentityRoleEntity, l
         adminUser.PasswordHash = hasher.HashPassword(adminUser, "gigachad");
         
         builder.Entity<UserEntity>().HasData(adminUser);
-        builder.Entity<IdentityUserRole<long>>().HasData(new[]
+        builder.Entity<IdentityUserRole<string>>().HasData(new[]
         {
-            new IdentityUserRole<long>
+            new IdentityUserRole<string>
             {
-                RoleId = 1,
-                UserId = 1
+                RoleId = "@dm1n",
+                UserId = adminUser.Id
             }
         });
         

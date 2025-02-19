@@ -27,6 +27,34 @@ public static class WebApplicationBuilderExtensions
                     Title   = "CarHistory API",
                     Version = "v1"
                 });
+            
+            opt.AddSecurityDefinition(
+                name: "Bearer",
+                securityScheme: new OpenApiSecurityScheme
+                {
+                    In           = ParameterLocation.Header,
+                    Description  = "Please insert JWT token",
+                    Name         = "Authorization",
+                    Type         = SecuritySchemeType.Http,
+                    Scheme       = "Bearer",
+                    BearerFormat = "JWT"
+                });
+
+            opt.AddSecurityRequirement(
+                securityRequirement: new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id   = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
         });
         
         return builder;
@@ -76,18 +104,24 @@ public static class WebApplicationBuilderExtensions
 
             x.UsingRabbitMq((context, configurator) =>
             {
-                configurator.Host("localhost", "/", hostConfigurator =>
+                configurator.Host(new Uri("rabbitmq://host.docker.internal/"), hostConfigurator =>
                 {
                     hostConfigurator.Username("guest");
                     hostConfigurator.Password("guest");
                 });
+                
+                // configurator.Host("localhost", "/", hostConfigurator =>
+                // {
+                //     hostConfigurator.Username("guest");
+                //     hostConfigurator.Password("guest");
+                // });
 
                 configurator.ReceiveEndpoint(
                     queueName: RabbitQueueNames.CAR_HISTORY,
                     configureEndpoint: endpoint =>
                     {
                         endpoint.PrefetchCount = 5;
-                        endpoint.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
+                        endpoint.UseMessageRetry(r => r.Interval(2, TimeSpan.FromSeconds(2)));
                         endpoint.UseConsumeFilter(typeof(LogConsumeMessageFilter<>), context);
 
                         endpoint.Consumer<AddCarHistoryConsumer>(context);
@@ -105,9 +139,9 @@ public static class WebApplicationBuilderExtensions
         return builder;
     }
     
-    public static WebApplicationBuilder AddAuthentification(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddAuthentication(this WebApplicationBuilder builder)
     {
-        builder.Services.AddJwtAuthentication(builder.Configuration["Authentification:SecretKey"]);
+        builder.Services.AddJwtAuthentication(builder.Configuration["Authentication:SecretKey"]);
         
         return builder;
     }

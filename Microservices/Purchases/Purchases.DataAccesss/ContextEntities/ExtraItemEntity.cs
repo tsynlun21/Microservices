@@ -20,7 +20,7 @@ public class ExtraItemEntity
 
     public int Count { get; set; }
 
-    public ExtraItemType Type { get; set; }
+    public ExtraPartType Type { get; set; }
 
     public decimal Price { get; set; }
 }

@@ -9,11 +9,7 @@ public class UpdateTransactionConsumer(IPurchasesService service) : IConsumer<Up
 {
     public async Task Consume(ConsumeContext<UpdateTransactionRequest> context)
     {
-        await service.UpdateTransaction(context.Message.User, context.Message.Transaction);
-        await context.RespondAsync(new BaseMasstransitResponse()
-        {
-            Message = $"Transaction {context.Message.Transaction.Id} has been updated.",
-            Success = true
-        });
+        var res = await service.UpdateTransaction(context.Message.User, context.Message.Transaction);
+        await context.RespondAsync(res);
     }
 }

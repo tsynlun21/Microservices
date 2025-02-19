@@ -8,9 +8,6 @@ public static partial class ShowRoomMappers
 {
     public static Vehicle ToVehicleDto(this VehicleEntity? entity)
     {
-        if (entity == null)
-            return null;
-
         return new Vehicle()
         {
             VehicleId   = entity.Id,
@@ -27,9 +24,6 @@ public static partial class ShowRoomMappers
 
     public static VehicleEntity ToVehicleEntity(this Vehicle vehicle, long showroomId, long modelId)
     {
-        if (vehicle == null)
-            return null;
-
         return new VehicleEntity()
         {
             Brand             = vehicle.Brand,
@@ -45,8 +39,6 @@ public static partial class ShowRoomMappers
 
     public static SoldVehicleEntity ToSoldVehicleEntity(this Vehicle vehicle)
     {
-        if (vehicle == null)
-            return null;
 
         return new SoldVehicleEntity()
         {

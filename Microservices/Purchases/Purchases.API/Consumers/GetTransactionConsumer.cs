@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Masstransit.Purchases.Requests;
-using Infrastructure.Masstransit.Purchases.Responses;
 using MassTransit;
 using Purchases.Domain.Services.Interfaces;
 
@@ -11,9 +10,6 @@ public class GetTransactionConsumer(IPurchasesService service) : IConsumer<GetTr
     {
         var response = await service.GetTransactions(context.Message.user);
         
-        await context.RespondAsync(new TransactionsResponse()
-        {
-            Transactions = response
-        });
+        await context.RespondAsync(response.ToArray());
     }
 }

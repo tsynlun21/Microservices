@@ -5,7 +5,6 @@ using CarsShowroom.Domain.Requests;
 using CarsShowroom.Domain.Services.Interfaces;
 using Infrastructure.Exceptions;
 using Infrastructure.Masstransit.Showrooms.Requests;
-using Infrastructure.Masstransit.Showrooms.Responses;
 using Infrastructure.Models.Purchases;
 using Infrastructure.Models.Showrooms;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +42,7 @@ public class ShowroomService(ShowroomDbContext context) : IShowroomService
         if (showRoom == null)
             throw new NotFoundException($"Shop with id [{request.ShowroomId}] not found");
 
-        var result = showRoom?.Vehicles
+        var result = showRoom.Vehicles
             .Where(v => v.Brand == request.Brand && (string.IsNullOrWhiteSpace(request.Model) != false ||
                                                      v.VehicleModelEntity.Model == request.Model))
             .Select(v => v.ToVehicleDto()).ToArray();
@@ -70,7 +69,7 @@ public class ShowroomService(ShowroomDbContext context) : IShowroomService
         return res;
     }
 
-    public async Task<ICollection<ExtraItem>> GetAllExtrasByModelName(string modelName)
+    public async Task<ICollection<ExtraPart>> GetAllExtrasByModelName(string modelName)
     {
         var model = await context.VehicleModels
             .Include(v => v.ExtraItems)
@@ -154,9 +153,9 @@ public class ShowroomService(ShowroomDbContext context) : IShowroomService
         return res;
     }
 
-    public async Task<ICollection<ExtraItem>> AddExtraItems(ICollection<ExtraItem> extraItems)
+    public async Task<ICollection<ExtraPart>> AddExtraItems(ICollection<ExtraPart> extraItems)
     {
-        var res = new List<ExtraItem>();
+        var res = new List<ExtraPart>();
         foreach (var extraItem in extraItems)
         {
             var vehicleModel = await context.VehicleModels.FirstOrDefaultAsync(vm => vm.Model == extraItem.VehicleModel);
@@ -187,7 +186,7 @@ public class ShowroomService(ShowroomDbContext context) : IShowroomService
     {
         var purchaseResult = new Purchase()
         {
-            ExtraItems = new List<ExtraItem>()
+            ExtraItems = new List<ExtraPart>()
         };
         
         var showroom = await context.Showrooms

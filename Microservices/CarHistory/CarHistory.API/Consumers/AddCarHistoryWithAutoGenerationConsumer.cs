@@ -1,4 +1,6 @@
 ﻿using CarHistory.Domain.Services;
+using Infrastructure.Exceptions;
+using Infrastructure.Masstransit;
 using Infrastructure.Masstransit.CarHistory.Requests;
 using MassTransit;
 

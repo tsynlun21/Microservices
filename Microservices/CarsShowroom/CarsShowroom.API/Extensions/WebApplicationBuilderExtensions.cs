@@ -96,7 +96,7 @@ public static class WebApplicationBuilderExtensions
 
             x.UsingRabbitMq((context, configurator) =>
             {
-                configurator.Host("localhost", "/", hostConfigurator =>
+                configurator.Host(new Uri("rabbitmq://host.docker.internal/"), hostConfigurator =>
                 {
                     hostConfigurator.Username("guest");
                     hostConfigurator.Password("guest");
@@ -130,9 +130,9 @@ public static class WebApplicationBuilderExtensions
         return builder;
     }
 
-    public static WebApplicationBuilder AddAuthentification(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddAuthentication(this WebApplicationBuilder builder)
     {
-        builder.Services.AddJwtAuthentication(builder.Configuration["Authentification:SecretKey"]);
+        builder.Services.AddJwtAuthentication(builder.Configuration["Authentication:SecretKey"]);
         
         return builder;
     }

@@ -11,7 +11,7 @@ public class SoldExtraItemsEntity
 
     public string Name { get; set; }
     
-    public ExtraItemType Type { get; set; }
+    public ExtraPartType Type { get; set; }
     
     [ForeignKey("VehicleModelKey")]
     public VehicleModelEntity VehicleModel { get; set; }

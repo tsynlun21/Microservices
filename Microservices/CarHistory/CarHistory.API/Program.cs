@@ -1,6 +1,7 @@
 using CarHistory.API.Extensions;
 using CarHistory.API.Settings;
 using Infrastructure.Configuration;
+using Infrastructure.Middlewares;
 using MongoDB.Driver;
 
 namespace CarHistory.API;
@@ -19,7 +20,7 @@ public class Program
             .AddDataContext()
             .AddMongoDb()
             .AddDomainServices()
-            .AddAuthentification()
+            .AddAuthentication()
             .AddMassTransit();
 
         var app = builder.Build();
@@ -33,7 +34,7 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         app.MapControllers();
 

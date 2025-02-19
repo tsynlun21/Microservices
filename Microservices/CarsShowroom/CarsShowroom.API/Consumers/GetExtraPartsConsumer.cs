@@ -1,6 +1,5 @@
 ﻿using CarsShowroom.Domain.Services.Interfaces;
 using Infrastructure.Masstransit.Showrooms.Requests;
-using Infrastructure.Masstransit.Showrooms.Responses;
 using MassTransit;
 
 namespace CarsShowroom.API.Consumers;
@@ -11,9 +10,6 @@ public class GetExtraPartsConsumer(IShowroomService service) : IConsumer<GetExtr
     {
         var res = await service.GetAllExtrasByModelName(context.Message.Model);
 
-        await context.RespondAsync(new ExtraItemsResponse
-        {
-            ExtraItems = res
-        });
+        await context.RespondAsync(res.ToArray());
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Identity.Domain.EntititesContext;
 
-public class UserEntity : IdentityUser<long>
+public class UserEntity : IdentityUser<string>
 {
     
 }

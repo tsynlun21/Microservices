@@ -1,4 +1,5 @@
 ﻿using CarHistory.Domain.Services;
+using Infrastructure.Exceptions;
 using Infrastructure.Masstransit;
 using Infrastructure.Masstransit.CarHistory.Requests;
 using MassTransit;
@@ -9,12 +10,7 @@ public class AddCarHistoryConsumer(ICarHistoryService service) : IConsumer<AddCa
 {
     public async Task Consume(ConsumeContext<AddCarHistoryRequest> context)
     {
-        await service.AddCarHistoryAsync(context.Message.CarHistories);
-
-        await context.RespondAsync(new BaseMasstransitResponse()
-        {
-            Success = true,
-            Message = "Successfully added car history",
-        });
+        var res = await service.AddCarHistoryAsync(context.Message.CarHistories); 
+        await context.RespondAsync(res.ToArray());   
     }
 }

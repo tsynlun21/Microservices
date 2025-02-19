@@ -1,4 +1,5 @@
-﻿using Infrastructure.Masstransit;
+﻿using Identity.Domain.Services;
+using Infrastructure.Masstransit;
 using Infrastructure.Masstransit.Identity.Requests;
 using Infrastructure.Models;
 using Infrastructure.Models.Identity;
@@ -9,36 +10,36 @@ using Microsoft.AspNetCore.Mvc;
 namespace Identity.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class AuthController(IBusControl busControl) : ControllerBase
+[Route("api/auth")]
+public class AuthController(IBusControl busControl, IAuthService service) : ControllerBase
 {
     private Uri _rabbitMqIdentityUri = new Uri($"queue:{RabbitQueueNames.IDENTITY}");
-
-    [HttpPost("[action]")]
+    
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegister request)
     {
-        var res = await RabbitWorker.GetRabbitMessageResponse<UserRegister, UserResponse>(request, busControl, _rabbitMqIdentityUri);
-
-        return Ok(ApiResult<UserResponse>.Success200(res));
+        var res = await RabbitWorker.GetRabbitMessageResponse<UserRegister, UserModel>(request, busControl, _rabbitMqIdentityUri);
+        
+        return Ok(ApiResult<UserModel>.Success200(res));
     }
 
-    [HttpPost("[action]")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserLogin request)
     {
-        var res = await RabbitWorker.GetRabbitMessageResponse<UserLogin, UserResponse>(request, busControl, _rabbitMqIdentityUri);
+        var res = await RabbitWorker.GetRabbitMessageResponse<UserLogin, UserModel>(request, busControl, _rabbitMqIdentityUri);
         
-        return Ok(ApiResult<UserResponse>.Success200(res));
+        return Ok(ApiResult<UserModel>.Success200(res));
     }
 
     [HttpPut("set-role")]
     [Authorize(Roles = RoleConstants.Admin)]
-    public async Task<IActionResult> SetUserRole([FromQuery] int userId, [FromQuery] string role)
+    public async Task<IActionResult> SetUserRole([FromBody] SetUserRoleRequest request)
     {
-        var res = await RabbitWorker.GetRabbitMessageResponse<SetUserRoleRequest, BaseMasstransitResponse>
+        var res = await RabbitWorker.GetRabbitMessageResponse<SetUserRoleRequest, UserModel>
         (
-            new SetUserRoleRequest(){UserId = userId, Role = role}, busControl, _rabbitMqIdentityUri
+            request, busControl, _rabbitMqIdentityUri
         );
         
-        return Ok(ApiResult<BaseMasstransitResponse>.Success200(res));
+        return Ok(ApiResult<UserModel>.Success200(res));
     }
 }

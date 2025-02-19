@@ -18,28 +18,11 @@ public class BuyVehicleConsumer(IShowroomService service, IBus bus) : IConsumer<
         var transaction = await service.CreateTransaction(context.Message.ShowroomId, purchase);
         await service.AddReceipt(transaction.Receipt);
 
-        var endpoiont = await bus.GetSendEndpoint(rabbitPurchasesUrl);
-        await endpoiont.Send(new AddTransactionRequest
+        var endpoint = await bus.GetSendEndpoint(rabbitPurchasesUrl);
+        await endpoint.Send(new AddTransactionRequest
         {
             User = context.Message.User,
             Transaction = transaction
         });
     }
 }
-
-// {
-// "showroomId": 1,
-// "purchase": {
-//     "vehicleId": 1,
-//     "extraItems": [
-//     {
-//         "name": "Harman Kardon audio system",
-//         "count": 1
-//     },
-//     {
-//         "name": "LED lights",
-//         "count": 1
-//     }
-//     ]
-// }
-// }

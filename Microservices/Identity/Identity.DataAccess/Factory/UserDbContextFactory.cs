@@ -10,7 +10,10 @@ public class UserDbContextFactory : IDesignTimeDbContextFactory<UserDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<UserDbContext>();
         optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5432;Username=postgres;password=admin;database=homeproject-cars-identity");
+            "Host=postgres;Port=5432;Username=postgres;password=admin;database=homeproject-cars-identity");
+        
+        // optionsBuilder.UseNpgsql(
+        //     "Host=localhost;Port=5432;Username=postgres;password=admin;database=homeproject-cars-identity");
         
         return new UserDbContext(optionsBuilder.Options);
     }

@@ -7,9 +7,6 @@ public static partial class ShowRoomMappers
 {
     public static Showroom ToShowroomDto(this ShowroomEntity entity)
     {
-        if (entity == null)
-            return null;
-
         return new Showroom()
         {
             Id            = entity.Id,

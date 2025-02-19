@@ -1,19 +1,15 @@
 ﻿using CarsShowroom.Domain.Services.Interfaces;
 using Infrastructure.Masstransit.Showrooms.Requests;
-using Infrastructure.Masstransit.Showrooms.Responses;
 using MassTransit;
 
 namespace CarsShowroom.API.Consumers;
 
-public class AddExtraItemsConsumer(IShowroomService service) : IConsumer<AddExtraItemsRequest>
+public class AddExtraItemsConsumer(IShowroomService service) : IConsumer<AddExtraPartsRequest>
 {
-    public async Task Consume(ConsumeContext<AddExtraItemsRequest> context)
+    public async Task Consume(ConsumeContext<AddExtraPartsRequest> context)
     {
         var res = await service.AddExtraItems(context.Message.ExtraItems);
         
-        await context.RespondAsync(new ExtraItemsResponse()
-        {
-            ExtraItems = res
-        });
+        await context.RespondAsync(res.ToArray());
     }
 }

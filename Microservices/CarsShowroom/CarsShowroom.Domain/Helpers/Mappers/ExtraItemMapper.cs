@@ -5,12 +5,9 @@ namespace CarsShowroom.Domain.Helpers.Mappers;
 
 public static partial class ShowRoomMappers
 {
-    public static ExtraItem ToExtraItemDto(this ExtraItemEntity entity)
+    public static ExtraPart ToExtraItemDto(this ExtraItemEntity entity)
     {
-        if (entity == null)
-            return null;
-
-        return new ExtraItem
+        return new ExtraPart
         {
             Type         = entity.Type,
             Id           = entity.Id,
@@ -21,11 +18,8 @@ public static partial class ShowRoomMappers
         };
     }
 
-    public static ExtraItemEntity ToExtraItemEntity(this ExtraItem entity, long modelId)
+    public static ExtraItemEntity ToExtraItemEntity(this ExtraPart entity, long modelId)
     {
-        if (entity == null)
-            return null;
-
         return new ExtraItemEntity()
         {
             Name                  = entity.Name,
@@ -36,11 +30,8 @@ public static partial class ShowRoomMappers
         };
     }
 
-    public static SoldExtraItemsEntity ToSoldExtraItem(this ExtraItem entity)
+    public static SoldExtraItemsEntity ToSoldExtraItem(this ExtraPart entity)
     {
-        if (entity == null)
-            return null;
-        
         return new SoldExtraItemsEntity()
         {
             Name = entity.Name,

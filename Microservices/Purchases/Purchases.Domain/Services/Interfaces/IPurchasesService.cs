@@ -5,11 +5,11 @@ namespace Purchases.Domain.Services.Interfaces;
 
 public interface IPurchasesService
 {
-    public Task<Transaction> GetTransactionById(User user, long id);
+    public Task<Transaction> GetTransactionById(UserModel user, long id);
     
-    public Task<ICollection<Transaction>> GetTransactions(User user);
+    public Task<ICollection<Transaction>> GetTransactions(UserModel user);
     
-    public Task<Transaction?> AddTransaction(User user, Transaction transaction);
+    public Task<Transaction> AddTransaction(UserModel user, Transaction transaction);
     
-    public Task UpdateTransaction(User user, UpdateTransaction transaction);
+    public Task<Transaction> UpdateTransaction(UserModel user, UpdateTransaction transaction);
 }

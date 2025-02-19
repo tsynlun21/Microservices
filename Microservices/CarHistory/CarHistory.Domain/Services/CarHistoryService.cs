@@ -30,7 +30,8 @@ public class CarHistoryService(ICarHistoryRepo repo) : ICarHistoryService
         };
     }
 
-    public async Task AddCarHistoryAsync(ICollection<Infrastructure.Models.CarHistory.CarHistory> carHistories)
+    public async Task<ICollection<Infrastructure.Models.CarHistory.CarHistory>> AddCarHistoryAsync(
+        ICollection<Infrastructure.Models.CarHistory.CarHistory> carHistories)
     {
         var toInsert = carHistories.Select(x => new CarHistoryEntity()
         {
@@ -47,6 +48,8 @@ public class CarHistoryService(ICarHistoryRepo repo) : ICarHistoryService
         {
             await repo.AddAsync(carHistoryEntity);
         }
+        
+        return carHistories;
     }
 
     public async Task AddCarHistoryWithGenerationAsync(

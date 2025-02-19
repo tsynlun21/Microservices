@@ -14,7 +14,7 @@ public class ExtraItemEntity
     public long Id { get; set; }
     
     public string Name { get; set; }
-    public ExtraItemType Type { get; set; }
+    public ExtraPartType Type { get; set; }
     
     [ForeignKey("VehicleModelEntityKey")]
     public VehicleModelEntity VehicleModelEntity { get; set; }

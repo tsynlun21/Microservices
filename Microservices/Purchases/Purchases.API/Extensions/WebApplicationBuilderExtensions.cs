@@ -92,11 +92,16 @@ public static class WebApplicationBuilderExtensions
             
             x.UsingRabbitMq((context, configurator) =>
             {
-                configurator.Host("localhost" ,"/", hostConfigurator =>
+                configurator.Host(new Uri("rabbitmq://host.docker.internal"), hostConfigurator =>
                 {
                     hostConfigurator.Username("guest");
                     hostConfigurator.Password("guest");
                 });
+                // configurator.Host("localhost", "/", hostConfigurator =>
+                // {
+                //     hostConfigurator.Username("guest");
+                //     hostConfigurator.Password("guest");
+                // });
                 
                 configurator.ReceiveEndpoint(
                     queueName: RabbitQueueNames.PURCHASES,

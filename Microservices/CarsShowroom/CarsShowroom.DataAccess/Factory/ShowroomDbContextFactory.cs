@@ -10,7 +10,7 @@ public class ShowroomDbContextFactory : IDesignTimeDbContextFactory<ShowroomDbCo
     {
         var optionsBuilder = new DbContextOptionsBuilder<ShowroomDbContext>();
         optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5432;Username=postgres;password=admin;database=homeproject-cars-showroom");
+            "Host=postgres;Port=5432;Username=postgres;password=admin;database=homeproject-cars-showroom");
         
         return new ShowroomDbContext(optionsBuilder.Options);
     }

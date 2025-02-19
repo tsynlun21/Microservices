@@ -72,27 +72,8 @@ public static class WebApplicationBuilderExtensions
 
         builder.Services.AddDbContext<UserDbContext>(opt => opt.UseNpgsql(connectionString));
 
-        return builder;
-    }
-
-    public static WebApplicationBuilder AddDomainServices(this WebApplicationBuilder builder)
-    {
-        return builder;
-    }
-
-    public static WebApplicationBuilder AddAuthorizationAndIdentity(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddJwtAuthentication(builder.Configuration["Authentification:TokenPrivateKey"]);
-        
-        builder.Services.AddAuthorization(opts =>
-        {
-            opts.AddPolicy("Admin", policy => policy.RequireClaim(RoleConstants.Admin));
-            opts.AddPolicy("Merchant", policy => policy.RequireClaim(RoleConstants.Merchant));
-            opts.AddPolicy("User", policy => policy.RequireClaim(RoleConstants.User));
-        });
-
-        builder.Services.AddTransient<IAuthService, AuthService>();
-        builder.Services.AddDefaultIdentity<UserEntity>(opts =>
+        Console.WriteLine("adding identites context");
+        builder.Services.AddIdentity<UserEntity, IdentityRoleEntity>(opts =>
             {
                 opts.SignIn.RequireConfirmedAccount  = false;
                 opts.Password.RequiredLength         = 6;
@@ -101,15 +82,34 @@ public static class WebApplicationBuilderExtensions
                 opts.Password.RequireUppercase       = false;
             })
             .AddEntityFrameworkStores<UserDbContext>()
-            .AddUserManager<UserManager<UserEntity>>()
-            .AddUserStore<UserStore<UserEntity, IdentityRoleEntity, UserDbContext, long>>();
+            .AddRoleManager<RoleManager<IdentityRoleEntity>>();
 
         return builder;
     }
 
-    public static WebApplicationBuilder AddAuthentificationOptions(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddDomainServices(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentification"));
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddAuthorizationAndIdentity(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddJwtAuthentication(builder.Configuration["Authentication:TokenPrivateKey"]);
+        
+        builder.Services.AddAuthorization(opts =>
+        {
+            opts.AddPolicy("Admin", policy => policy.RequireClaim(RoleConstants.Admin));
+            opts.AddPolicy("Merchant", policy => policy.RequireClaim(RoleConstants.Merchant));
+            opts.AddPolicy("User", policy => policy.RequireClaim(RoleConstants.User));
+        });
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddAuthenticationOptions(this WebApplicationBuilder builder)
+    {
+        builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Authentication"));
 
         return builder;
     }
@@ -129,26 +129,34 @@ public static class WebApplicationBuilderExtensions
             x.AddConsumer<RegisterConsumer>();
             x.AddConsumer<LoginConsumer>();
             x.AddConsumer<SetUserRoleConsumer>();
+            x.AddConsumer<GetUserByTokenConsumer>();
 
             x.UsingRabbitMq((context, configurator) =>
             {
-                configurator.Host("localhost", "/", hostConfigurator =>
+                configurator.Host(new Uri("rabbitmq://host.docker.internal/"), hostConfigurator =>
                 {
                     hostConfigurator.Username("guest");
                     hostConfigurator.Password("guest");
                 });
+                
+                // configurator.Host("localhost", "/", hostConfigurator =>
+                // {
+                //     hostConfigurator.Username("guest");
+                //     hostConfigurator.Password("guest");
+                // });
 
                 configurator.ReceiveEndpoint(
                     queueName: RabbitQueueNames.IDENTITY,
                     configureEndpoint: endpoint =>
                     {
-                        endpoint.PrefetchCount = 5;
-                        endpoint.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
+                        endpoint.PrefetchCount = 2;
+                        //endpoint.UseMessageRetry(r => r.Interval(0, TimeSpan.FromSeconds(1)));
                         endpoint.UseConsumeFilter(typeof(LogConsumeMessageFilter<>), context);
 
                         endpoint.Consumer<RegisterConsumer>(context);
                         endpoint.Consumer<LoginConsumer>(context);
                         endpoint.Consumer<SetUserRoleConsumer>(context);
+                        endpoint.Consumer<GetUserByTokenConsumer>(context);
                     });
                 configurator.ConfigureJsonSerializerOptions(o =>
                 {

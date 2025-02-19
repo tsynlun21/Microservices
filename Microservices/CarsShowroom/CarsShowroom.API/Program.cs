@@ -21,7 +21,7 @@ public class Program
             .AddDataContext()
             .AddDomainServices()
             .AddMassTransit()
-            .AddAuthentification();
+            .AddAuthentication();
         
         var app = builder.Build();
 

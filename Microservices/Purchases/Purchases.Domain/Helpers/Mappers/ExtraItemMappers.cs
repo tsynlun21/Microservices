@@ -5,27 +5,27 @@ namespace Purchases.Domain.Helpers.Mappers;
 
 public static partial class PurchasesMappers
 {
-    public static ExtraItemEntity ToExtraItemEntity(this ExtraItem extraItem)
+    public static ExtraItemEntity ToExtraItemEntity(this ExtraPart extraPart)
     {
-        if (extraItem == null)
+        if (extraPart == null)
             return null;
 
         return new ExtraItemEntity()
         {
-            Name = extraItem.Name,
-            VehicleModel = extraItem.VehicleModel,
-            Price        = extraItem.Price,
-            Count        = extraItem.Count,
-            Type         = extraItem.Type,
+            Name = extraPart.Name,
+            VehicleModel = extraPart.VehicleModel,
+            Price        = extraPart.Price,
+            Count        = extraPart.Count,
+            Type         = extraPart.Type,
         };
     }
 
-    public static ExtraItem ToExtraItem(this ExtraItemEntity entity)
+    public static ExtraPart ToExtraItem(this ExtraItemEntity entity)
     {
         if (entity == null)
             return null;
 
-        return new ExtraItem()
+        return new ExtraPart()
         {
             Name         = entity.Name,
             VehicleModel = entity.VehicleModel,

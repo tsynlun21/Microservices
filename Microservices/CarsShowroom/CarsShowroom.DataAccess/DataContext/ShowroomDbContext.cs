@@ -9,10 +9,11 @@ public class ShowroomDbContext : DbContext
 {
     public ShowroomDbContext(DbContextOptions<ShowroomDbContext> options) : base(options)
     {
-        if (Database.GetPendingMigrations().Any())
-        {
-            Database.Migrate();
-        }
+        Database.EnsureCreated();
+        // if (Database.GetPendingMigrations().Any())
+        // {
+        //     Database.Migrate();
+        // }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -67,7 +68,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 1,
                 Name                  = "Harman Kardon audio system",
-                Type                  = ExtraItemType.Electronic,
+                Type                  = ExtraPartType.Electronic,
                 VehicleModelEntityKey = 1,
                 Count                 = 10,
                 Price                 = 185_000,
@@ -76,7 +77,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 4,
                 Name                  = "Power Wilkins Audio system",
-                Type                  = ExtraItemType.Electronic,
+                Type                  = ExtraPartType.Electronic,
                 VehicleModelEntityKey = 2,
                 Count                 = 10,
                 Price                 = 160_000
@@ -85,7 +86,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 5,
                 Name                  = "19R Alpine wheels set",
-                Type                  = ExtraItemType.Exterior,
+                Type                  = ExtraPartType.Exterior,
                 VehicleModelEntityKey = 2,
                 Count                 = 3,
                 Price                 = 750_000
@@ -94,7 +95,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 6,
                 Name                  = "AMG kit",
-                Type                  = ExtraItemType.Exterior,
+                Type                  = ExtraPartType.Exterior,
                 VehicleModelEntityKey = 3,
                 Count                 = 3,
                 Price                 = 300_000
@@ -103,7 +104,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 7,
                 Name                  = "Ceramic breaks system",
-                Type                  = ExtraItemType.Exterior,
+                Type                  = ExtraPartType.Exterior,
                 VehicleModelEntityKey = 4,
                 Count                 = 3,
                 Price                 = 915_000
@@ -112,7 +113,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 2,
                 Name                  = "Lip spoiler",
-                Type                  = ExtraItemType.Exterior,
+                Type                  = ExtraPartType.Exterior,
                 VehicleModelEntityKey = 1,
                 Count                 = 10,
                 Price                 = 45_000
@@ -121,7 +122,7 @@ public class ShowroomDbContext : DbContext
             {
                 Id                    = 3,
                 Name                  = "LED lights",
-                Type                  = ExtraItemType.Electronic,
+                Type                  = ExtraPartType.Electronic,
                 VehicleModelEntityKey = 1,
                 Count                 = 10,
                 Price                 = 310_000

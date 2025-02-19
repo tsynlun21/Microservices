@@ -7,8 +7,9 @@ public class PurchasesDbContext : DbContext
 {
     public PurchasesDbContext(DbContextOptions options) : base(options)
     {
-        if (Database.GetPendingMigrations().Any())
-            Database.Migrate();
+        Database.EnsureCreated();
+        // if (Database.GetPendingMigrations().Any())
+        //     Database.Migrate();
     }
     
     public DbSet<CustomerEntity> Customers { get; set; }

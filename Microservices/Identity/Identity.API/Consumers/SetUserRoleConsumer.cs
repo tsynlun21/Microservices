@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Services;
+using Infrastructure.Exceptions;
 using Infrastructure.Masstransit;
 using Infrastructure.Masstransit.Identity.Requests;
 using MassTransit;
@@ -9,12 +10,8 @@ public class SetUserRoleConsumer(IAuthService service) : IConsumer<SetUserRoleRe
 {
     public async Task Consume(ConsumeContext<SetUserRoleRequest> context)
     {
-        await service.SetUserRole(context.Message.UserId, context.Message.Role);
+        var res = await service.SetUserRole(context.Message.UserId, context.Message.Role);
 
-        await context.RespondAsync(new BaseMasstransitResponse()
-        {
-            Success = true,
-            Message = "User role updated"
-        });
+        await context.RespondAsync(res);
     }
 }

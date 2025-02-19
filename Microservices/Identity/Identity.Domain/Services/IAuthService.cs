@@ -4,8 +4,10 @@ namespace Identity.Domain.Services;
 
 public interface IAuthService
 {
-    Task<UserResponse> Register(UserRegister userRegister);
-    Task<UserResponse> Login(UserLogin userLogin);
+    Task<UserModel> Register(UserRegister userRegister);
+    Task<UserModel> Login(UserLogin userLogin);
     
-    Task SetUserRole(int userId, string role);
+    Task<UserModel> SetUserRole(string userId, string role);
+    
+    Task<UserModel> GetUserByToken(string token);
 }

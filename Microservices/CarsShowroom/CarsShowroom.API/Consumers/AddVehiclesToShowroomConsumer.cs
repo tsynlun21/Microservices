@@ -1,7 +1,6 @@
 ﻿using CarsShowroom.Domain.Services.Interfaces;
 using Infrastructure.Masstransit.CarHistory.Requests;
 using Infrastructure.Masstransit.Showrooms.Requests;
-using Infrastructure.Masstransit.Showrooms.Responses;
 using Infrastructure.Models.CarHistory;
 using Infrastructure.Models.Showrooms;
 using MassTransit;
@@ -21,10 +20,7 @@ public class AddVehiclesToShowroomConsumer(IShowroomService service) : IConsumer
         
         var res = await service.AddVehiclesToShowroom(context.Message.VehiclesPerShowrooms);
         
-        await context.RespondAsync(new VehiclesResponse()
-        {
-            Vehicles = res
-        });
+        await context.RespondAsync(res.ToArray());
     }
 
     private ICollection<CarHistoryBase> CreateCarHistoryRequestData(ICollection<VehiclesPerShowroom> incomingCollection)

@@ -1,3 +1,5 @@
+using Infrastructure.Configuration;
+using Infrastructure.Middlewares;
 using Purchases.API.Extensions;
 
 namespace Purchases.API;
@@ -18,6 +20,7 @@ public class Program
             opts.AddFilters();
         });
 
+        builder.Services.AddJwtAuthentication(builder.Configuration["Authentication:SecretKey"]);
         builder
             .AddDataContext()
             .AddSwagger()
@@ -30,9 +33,10 @@ public class Program
         app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
-
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseAuthentication();
         app.UseAuthorization();
-
+        app.UseMiddleware<JwtMiddleware>();
         app.MapControllers();
 
         app.Urls.Add("http://*:5002");
